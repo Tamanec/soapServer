@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#docker network create mgsn
+
+docker run -d --name mgsn-php \
+    --net mgsn \
+    --net-alias php \
+    --volume /var/www/mgsn:/var/www/html \
+    php-soap
+
+docker run -d --name mgsn-nginx \
+    -p 8080:80 \
+    --net mgsn \
+    --net-alias nginx \
+    --volume /var/www/mgsn:/var/www/html \
+    --volume /var/www/mgsn/docker/nginx:/etc/nginx/conf.d \
+    nginx-php

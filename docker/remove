@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker stop mgsn-php && docker rm mgsn-php
+docker stop mgsn-nginx && docker rm mgsn-nginx

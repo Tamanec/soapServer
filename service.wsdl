@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        name="marmService"
+        targetNamespace="http://tempuri.org/"
+        xmlns:tns="http://tempuri.org/"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+        <schema
+                targetNamespace="http://tempuri.org/"
+                xmlns="http://www.w3.org/2001/XMLSchema"
+                elementFormDefault="qualified">
+
+            <element name="saveMessages">
+                <complexType>
+                    <sequence>
+                        <element minOccurs="1" maxOccurs="unbounded" name="messageList" type="tns:myMessage"/>
+                    </sequence>
+                </complexType>
+            </element>
+
+            <complexType name="myMessage">
+                <sequence>
+                    <element minOccurs="1" maxOccurs="1" name="title" type="string"/>
+                    <element minOccurs="1" maxOccurs="1" name="body" type="string"/>
+                </sequence>
+            </complexType>
+
+            <element name="saveMessagesResponse">
+                <complexType/>
+            </element>
+        </schema>
+    </types>
+
+    <message name="saveMessagesIn">
+        <part name="parameters" element="tns:saveMessages"/>
+    </message>
+
+    <message name="saveMessagesOut">
+        <part name="parameters" element="tns:saveMessagesResponse"/>
+    </message>
+
+    <portType name="marmServicePortType">
+        <operation name="saveMessages">
+            <input message="tns:saveMessagesIn"/>
+            <output message="tns:saveMessagesOut"/>
+        </operation>
+    </portType>
+
+    <binding name="marmServiceBinding" type="tns:marmServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="saveMessages">
+            <soap:operation soapAction="http://localhost:8080/saveMessages"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="marmService">
+        <port name="marmServicePort" binding="tns:marmServiceBinding">
+            <soap:address location="http://localhost:8080/service.php"/>
+        </port>
+    </service>
+
+</definitions>
